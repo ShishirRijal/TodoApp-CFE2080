@@ -7,6 +7,7 @@ class TaskTile extends StatefulWidget {
   final Function()? longPressCallback;
 
   const TaskTile({
+    super.key,
     this.isChecked = false,
     required this.taskTitle,
     this.checkboxCallback,
@@ -47,18 +48,13 @@ class _TaskTileState extends State<TaskTile> {
               backgroundColor: Colors.red,
             ));
           }
-          // Remove the item from the data source.
-          // setState(() {
-          //   items.removeAt(index);
-          // });
-          // Then show a snackbar.
         },
         child: ListTile(
           title: Text(
             widget.taskTitle,
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.w500,
+              // fontWeight: FontWeight.w500,
               decoration: isChecked ? TextDecoration.lineThrough : null,
             ),
           ),

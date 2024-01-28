@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/screen/add_task_screen.dart';
 import 'package:todo_app/widgets/task_tile.dart';
 
@@ -29,10 +30,10 @@ class HomeScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(
                 top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CircleAvatar(
+                const CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 30.0,
                   child: Icon(
@@ -41,10 +42,10 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.deepPurpleAccent,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
-                Text(
+                const Text(
                   'Todo App',
                   style: TextStyle(
                     color: Colors.white,
@@ -53,8 +54,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Total Tasks: 20',
-                  style: TextStyle(
+                  'Tasks: ${todos.length}',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                   ),
@@ -74,9 +75,12 @@ class HomeScreen extends StatelessWidget {
               ),
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return TaskTile(taskTitle: "Task $index");
+                  return TaskTile(
+                    taskTitle: todos[index].title,
+                    isChecked: todos[index].isCompleted,
+                  );
                 },
-                itemCount: 20,
+                itemCount: todos.length,
               ),
             ),
           ),
