@@ -55,10 +55,7 @@ class HomeScreen extends StatelessWidget {
                       return ListView.builder(
                         itemBuilder: (context, index) {
                           final todo = snapshot.data![index];
-                          return TaskTile(
-                            taskTitle: todo.title,
-                            isChecked: todo.isCompleted,
-                          );
+                          return TaskTile(todo: todo);
                         },
                         itemCount: snapshot.data!.length,
                       );

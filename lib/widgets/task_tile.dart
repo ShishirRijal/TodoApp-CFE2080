@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/todo_model.dart';
 
 class TaskTile extends StatefulWidget {
-  final bool isChecked;
-  final String taskTitle;
-  final Function(bool?)? checkboxCallback;
-  final Function()? longPressCallback;
+  final TodoModel todo;
 
   const TaskTile({
     super.key,
-    this.isChecked = false,
-    required this.taskTitle,
-    this.checkboxCallback,
-    this.longPressCallback,
+    required this.todo,
   });
 
   @override
@@ -19,20 +14,12 @@ class TaskTile extends StatefulWidget {
 }
 
 class _TaskTileState extends State<TaskTile> {
-  bool isChecked = false;
-
-  @override
-  void initState() {
-    isChecked = widget.isChecked;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.grey[100],
       child: Dismissible(
-        key: Key(widget.taskTitle),
+        key: Key(widget.todo.id),
         background: Container(
           padding: const EdgeInsets.only(right: 20.0),
           alignment: Alignment.centerRight,
@@ -44,30 +31,31 @@ class _TaskTileState extends State<TaskTile> {
           if (direction == DismissDirection.endToStart) {
             // Then show a snackbar.
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('${widget.taskTitle} dismissed'),
+              content: Text('${widget.todo.title} dismissed'),
               backgroundColor: Colors.red,
             ));
           }
         },
         child: ListTile(
           title: Text(
-            widget.taskTitle,
+            widget.todo.title,
             style: TextStyle(
               fontSize: 18,
               // fontWeight: FontWeight.w500,
-              decoration: isChecked ? TextDecoration.lineThrough : null,
+              decoration:
+                  widget.todo.isCompleted ? TextDecoration.lineThrough : null,
             ),
           ),
           trailing: Checkbox(
             side: const BorderSide(width: 0),
             fillColor: const MaterialStatePropertyAll(Colors.purple),
-            value: isChecked,
-            onChanged: widget.checkboxCallback ??
-                (_) {
-                  setState(() {
-                    isChecked = !isChecked;
-                  });
-                },
+            value: widget.todo.isCompleted,
+            onChanged: (_) {
+              TodoModel todo = widget.todo;
+              todo.toggleCompleted();
+              TodoModel.updateTask(todo);
+              setState(() {});
+            },
           ),
         ),
       ),

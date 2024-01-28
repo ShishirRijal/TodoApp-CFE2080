@@ -38,11 +38,24 @@ class TodoModel {
     );
   }
 
+  static void updateTask(TodoModel todo) async {
+    await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(todo.id)
+        .update(todo.toJson());
+  }
+
   // from json
   TodoModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
         isCompleted = json['isCompleted'];
+// to json
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'isCompleted': isCompleted,
+      };
 }
 
 List<TodoModel> _todos = [
