@@ -45,6 +45,10 @@ class TodoModel {
         .update(todo.toJson());
   }
 
+  static void deleteTask(TodoModel todo) async {
+    await FirebaseFirestore.instance.collection('tasks').doc(todo.id).delete();
+  }
+
   // from json
   TodoModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],

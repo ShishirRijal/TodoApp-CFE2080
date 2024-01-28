@@ -29,7 +29,7 @@ class _TaskTileState extends State<TaskTile> {
         onDismissed: (direction) {
           // for end to start swipe
           if (direction == DismissDirection.endToStart) {
-            // Then show a snackbar.
+            TodoModel.deleteTask(widget.todo);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('${widget.todo.title} dismissed'),
               backgroundColor: Colors.red,
