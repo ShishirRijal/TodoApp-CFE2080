@@ -15,6 +15,17 @@ class TodoModel {
     isCompleted = !isCompleted;
   }
 
+  static Future<List<TodoModel>> fetchTasks() async {
+    List<TodoModel> tasks = [];
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('tasks').get();
+
+    for (var doc in querySnapshot.docs) {
+      tasks.add(TodoModel.fromJson(doc.data()));
+    }
+    return tasks;
+  }
+
   static void addTask(String task) async {
     String taskId = FirebaseFirestore.instance.collection('tasks').doc().id;
 

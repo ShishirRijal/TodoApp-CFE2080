@@ -30,10 +30,10 @@ class HomeScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(
                 top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const CircleAvatar(
+                CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 30.0,
                   child: Icon(
@@ -42,10 +42,10 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.deepPurpleAccent,
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 10.0,
                 ),
-                const Text(
+                Text(
                   'Todo App',
                   style: TextStyle(
                     color: Colors.white,
@@ -53,36 +53,44 @@ class HomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Text(
-                  'Tasks: ${todos.length}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
               ],
             ),
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
                 ),
-              ),
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return TaskTile(
-                    taskTitle: todos[index].title,
-                    isChecked: todos[index].isCompleted,
-                  );
-                },
-                itemCount: todos.length,
-              ),
-            ),
+                child: FutureBuilder(
+                    future: TodoModel.fetchTasks(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('Something went wrong!'),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          final todo = snapshot.data![index];
+                          return TaskTile(
+                            taskTitle: todo.title,
+                            isChecked: todo.isCompleted,
+                          );
+                        },
+                        itemCount: snapshot.data!.length,
+                      );
+                    })),
           ),
         ],
       ),
