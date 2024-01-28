@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TodoModel {
   String id;
   String title;
@@ -11,6 +13,18 @@ class TodoModel {
 
   void toggleCompleted() {
     isCompleted = !isCompleted;
+  }
+
+  static void addTask(String task) async {
+    String taskId = FirebaseFirestore.instance.collection('tasks').doc().id;
+
+    await FirebaseFirestore.instance.collection('tasks').doc(taskId).set(
+      {
+        'id': taskId,
+        'title': task,
+        'isCompleted': false,
+      },
+    );
   }
 
   // from json

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/todo_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -64,6 +66,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
               ),
               onPressed: () {
+                TodoModel.addTask(controller.text.trim());
                 Navigator.pop(context);
               },
             ),
