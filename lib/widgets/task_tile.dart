@@ -63,6 +63,7 @@ class _TaskTileState extends State<TaskTile> {
             ),
           ),
           trailing: Checkbox(
+            side: const BorderSide(width: 0),
             fillColor: const MaterialStatePropertyAll(Colors.purple),
             value: isChecked,
             onChanged: widget.checkboxCallback ??

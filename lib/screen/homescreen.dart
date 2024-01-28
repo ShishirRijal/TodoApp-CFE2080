@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screen/add_task_screen.dart';
 import 'package:todo_app/widgets/task_tile.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,16 +13,15 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: Colors.purpleAccent,
           child: const Icon(Icons.add, color: Colors.white),
           onPressed: () {
-            // showModalBottomSheet(
-            //     context: context,
-            //     isScrollControlled: true,
-            //     builder: (context) => SingleChildScrollView(
-            //         child:Container(
-            //           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-            //           child: AddTaskScreen(),
-            //         )
-            //     )
-            // );
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => SingleChildScrollView(
+                        child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: const AddTaskScreen(),
+                    )));
           }),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
